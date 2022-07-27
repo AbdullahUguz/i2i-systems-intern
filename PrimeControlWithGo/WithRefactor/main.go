@@ -21,12 +21,12 @@ func main() {
 	for fileScanner.Scan() {
 
 		number, _ := strconv.Atoi(fileScanner.Text())
-		fmt.Println(isPrime(number))
+		fmt.Println(primeControl(number))
 
 	}
 }
 
-func isPrime(number int) (int, string) {
+func primeControl(number int) (int, string) {
 	control := 0
 	for i := 1; i <= number; i++ {
 		if number%i == 0 {
