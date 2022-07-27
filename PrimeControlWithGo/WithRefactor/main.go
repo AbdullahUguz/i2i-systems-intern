@@ -28,13 +28,13 @@ func main() {
 
 func isPrime(number int) (int, string) {
 	control := 0
-	for i := 2; i < number; i++ {
+	for i := 1; i <= number; i++ {
 		if number%i == 0 {
 			control++
 		}
 	}
 
-	if control == 0 {
+	if control == 2 {
 		return number, "is prime"
 	} else {
 		return number, "is not prime"

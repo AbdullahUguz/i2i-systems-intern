@@ -22,15 +22,14 @@ func main() {
 		control := 0
 
 		number, _ := strconv.Atoi(fileScanner.Text())
-		//	fmt.Println(number)
 
-		for i := 2; i < number; i++ {
+		for i := 1; i <= number; i++ {
 			if number%i == 0 {
 				control++
 			}
 		}
 
-		if control == 0 {
+		if control == 2 {
 			fmt.Println(number, "is prime ")
 		} else {
 			fmt.Println(number, "is not prime ")
