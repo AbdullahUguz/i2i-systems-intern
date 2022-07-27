@@ -3,18 +3,14 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"io"
 	"os"
 	"strconv"
 )
 
 func main() {
-	readFile, err := os.Open("numbers.txt")
 
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	fileScanner := bufio.NewScanner(readFile)
+	fileScanner := bufio.NewScanner(openFile("numbers.txt"))
 
 	fileScanner.Split(bufio.ScanLines)
 
@@ -24,6 +20,16 @@ func main() {
 		fmt.Println(primeControl(number))
 
 	}
+}
+
+func openFile(fileName string) io.Reader {
+	readFile, err := os.Open(fileName)
+
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return readFile
 }
 
 func primeControl(number int) (int, string) {
