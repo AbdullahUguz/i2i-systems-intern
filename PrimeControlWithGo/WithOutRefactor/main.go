@@ -36,4 +36,7 @@ func main() {
 		}
 		control = 0
 	}
+
+	defer readFile.Close()
+
 }

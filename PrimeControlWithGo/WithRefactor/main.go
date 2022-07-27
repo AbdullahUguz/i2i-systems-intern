@@ -10,7 +10,9 @@ import (
 
 func main() {
 
-	fileScanner := bufio.NewScanner(openFile("numbers.txt"))
+	readFile := openFile("numbers.txt")
+
+	fileScanner := bufio.NewScanner(readFile)
 
 	fileScanner.Split(bufio.ScanLines)
 
@@ -20,6 +22,10 @@ func main() {
 		fmt.Println(primeControl(number))
 
 	}
+
+	os.Exit(1)
+	//	defer readFile.Close()
+
 }
 
 func openFile(fileName string) io.Reader {
@@ -28,7 +34,6 @@ func openFile(fileName string) io.Reader {
 	if err != nil {
 		fmt.Println(err)
 	}
-
 	return readFile
 }
 
