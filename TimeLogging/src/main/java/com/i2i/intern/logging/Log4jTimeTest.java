@@ -1,4 +1,4 @@
-package i2i.logging;
+package com.i2i.intern.logging;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -6,9 +6,9 @@ import java.time.format.DateTimeFormatter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class Logging {
+public class Log4jTimeTest {
 
-	public static Logger logger = LogManager.getLogger(Logging.class);
+	public static Logger logger = LogManager.getLogger(Log4jTimeTest.class);
 	public static LocalDateTime time;
 	public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");;
 
@@ -21,7 +21,7 @@ public class Logging {
 
 				writeLog(time);
 
-				Thread.sleep(500);
+				Thread.sleep(1000);
 
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
