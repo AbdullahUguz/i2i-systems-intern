@@ -1,0 +1,6 @@
+1 is not prime
+2 is prime
+12 is not prime
+20 is not prime
+19 is prime
+15 is not prime
