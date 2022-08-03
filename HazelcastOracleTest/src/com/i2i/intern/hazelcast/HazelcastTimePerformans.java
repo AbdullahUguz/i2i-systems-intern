@@ -27,7 +27,7 @@ public class HazelcastTimePerformans {
 
 		for (Entry<String, String> entry : map.entrySet()) {
 			entry.getKey();
-		//	entry.getValue();
+			entry.getValue();
 		}
 
 		long endTime = System.currentTimeMillis();
