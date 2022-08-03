@@ -41,8 +41,8 @@ public class HazelcastTimePerformans {
 		HazelcastInstance hz = HazelcastClient.newHazelcastClient();
 		IMap<String, String> map = hz.getMap("my-hazelcast-11");
 
-		System.out.println("Put 20000 Data  Time : " + putDataTime(map) + " ms");
-		System.out.println("Get 20000 Data  Time : " + getDataTime(map) + " ms");
+		System.out.println("Hazelcast Put 20000 Data  Time : " + putDataTime(map) + " ms");
+		System.out.println("Hazelcast Get 20000 Data  Time : " + getDataTime(map) + " ms");
 
 		hz.shutdown();
 	}

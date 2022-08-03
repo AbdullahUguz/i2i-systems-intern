@@ -7,6 +7,7 @@ import java.sql.SQLException;
 public class Main {
 	public static void main(String[] args) throws SQLException {
 
+		
 		HazelcastTimePerformans hazelcastTimePerformans = new HazelcastTimePerformans();
 		hazelcastTimePerformans.hazelcastOperation();
 		
@@ -16,13 +17,19 @@ public class Main {
 		OracleTimePerformans oracleTimePerformans =new OracleTimePerformans();
 		
 		Connection conn = oracleTimePerformans.connection("system","oracle");
+ 
 		
-		System.out.println("Oracle create 20000 users time : "+oracleTimePerformans.createUsers(conn)+" ms"); //oracleTimePerformans.createUsers(conn);
-		System.out.println("Oracle get 20000 users time : "+oracleTimePerformans.getUsers(conn)+" ms");        //oracleTimePerformans.getUsers(conn);
+		oracleTimePerformans.createUsersTable(conn);
+
 		
 		
-//		String message = oracleTimePerformans.truncateUsersTable(conn);
-//		System.out.println(message);
+		System.out.println("Oracle create 20000 users time : "+oracleTimePerformans.insertTimePerformans(conn)+" ms");
+		System.out.println("Oracle get 20000 users time : "+oracleTimePerformans.getUsersTimePerformans(conn)+" ms");
+
+      
+//		System.out.println(oracleTimePerformans.dropUsersTable(conn));
+        
+//		System.out.println(oracleTimePerformans.truncateUsersTable(conn));
 		
 		oracleTimePerformans.closeConnection(conn);
 		

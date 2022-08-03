@@ -19,7 +19,29 @@ public class OracleTimePerformans {
 
 	}
 
-	public long createUsers(Connection conn) throws SQLException {
+	public void createUsersTable(Connection conn) throws SQLException {
+
+		
+		String SQL ="declare\r\n"
+				+ "begin\r\n"
+				+ "  execute immediate 'create table \"USERS\" (\"id\" int ,\"name\" varchar2(20))';\r\n"
+				+ "  exception when others then\r\n"
+				+ "    if SQLCODE = -955 then null; else raise; end if;\r\n"
+				+ "end;";
+		Connection connection = conn;
+		PreparedStatement statement ;
+		try{
+			statement = connection.prepareStatement(SQL);
+			statement.executeUpdate();
+
+		} catch (SQLException ex) {
+			System.out.println(ex.getMessage());
+		}
+
+
+	}
+
+	public long insertTimePerformans(Connection conn) throws SQLException {
 
 		String SQL = "INSERT INTO users(id,name) " + "VALUES(?,?)";
 		Connection connection = conn;
@@ -49,8 +71,41 @@ public class OracleTimePerformans {
 
 	}
 
-	public long getUsers(Connection conn) throws SQLException {
+	public String truncateUsersTable(Connection conn) {
 
+		String SQL = "truncate table users";
+		Connection connection = conn;
+		PreparedStatement statement;
+
+		try {
+			statement = connection.prepareStatement(SQL);
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return "Users Table Truncated";
+
+	}
+
+	public String dropUsersTable(Connection conn) throws SQLException {
+
+		String SQL = "Drop Table Users";
+		Connection connection = conn;
+		PreparedStatement statement ;
+		try{
+			statement = connection.prepareStatement(SQL);
+			statement.executeUpdate();
+
+		} catch (SQLException ex) {
+			System.out.println(ex.getMessage());
+		}
+
+		return "Users Table Dropped";
+
+	}
+
+	public long getUsersTimePerformans(Connection conn) throws SQLException {
 
 		Statement stmt = conn.createStatement();
 		ResultSet rs = stmt.executeQuery("select * from users");
@@ -67,22 +122,6 @@ public class OracleTimePerformans {
 		return endTime - startTime;
 	}
 	
-	public String truncateUsersTable(Connection conn) {
-		
-		String SQL = "truncate table users";
-		Connection connection = conn; 
-		PreparedStatement statement;
-		
-		try {
-			statement = connection.prepareStatement(SQL);
-			statement.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return "Users table truncated";
-		
-	}
 
 	public void closeConnection(Connection conn) throws SQLException {
 		conn.close();
