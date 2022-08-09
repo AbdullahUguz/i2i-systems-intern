@@ -16,18 +16,18 @@ public class Main {
 		System.out.println("--------------------------------------------------------");
 		
 		// VoltDb Connection
-		VoltDBPerformans voltDbTimePerformans =new VoltDBPerformans();
-		Connection connectionVoltDb = voltDbTimePerformans.connection("49163");
+		IDatabaseOperation voltDbTimePerformans =new VoltDBPerformans();
+		Connection connectionVoltDb = voltDbTimePerformans.connection("49162","username","password");
 		
 		voltDbTimePerformans.createSubscribersTable(connectionVoltDb);
 		
-		System.out.println("VoltDb insert 20000 subscribers time : "+voltDbTimePerformans.insertSubscriberTime(connectionVoltDb,numbers,packets)+" ms");
+		System.out.println("VoltDb insert 20000 subscribers time : "+voltDbTimePerformans.insertSubscribersTime(connectionVoltDb,numbers,packets)+" ms");
 		System.out.println("VoltDb get 20000 subscribers time : "+voltDbTimePerformans.getSubscribersTime(connectionVoltDb)+" ms");
 		
 		
-    //	System.out.println(voltDbTimePerformans.dropSubscribersTable(connectionVoltDb));
+    	System.out.println(voltDbTimePerformans.dropSubscribersTable(connectionVoltDb));
         
-	//	System.out.println(voltDbTimePerformans.truncateSubscribersTable(connectionVoltDb));
+		System.out.println(voltDbTimePerformans.truncateSubscribersTable(connectionVoltDb));
 		
 		voltDbTimePerformans.closeConnection(connectionVoltDb);
 	
@@ -35,8 +35,8 @@ public class Main {
 		System.out.println("--------------------------------------------------------");
 		
 		// Oracle Connection
-		OracleDBPerformans oracleTimePerformans =new OracleDBPerformans();
-		Connection connectionOracle = oracleTimePerformans.connection("system","oracle");
+		IDatabaseOperation oracleTimePerformans =new OracleDBPerformans();
+		Connection connectionOracle = oracleTimePerformans.connection("49261","system","oracle");
 		
 		oracleTimePerformans.createSubscribersTable(connectionOracle);
 

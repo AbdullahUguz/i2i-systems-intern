@@ -8,14 +8,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Random;
 
-public class OracleDBPerformans {
+public class OracleDBPerformans implements IDatabaseOperation{
 	private Random rand = new Random();
 
-	public Connection connection(String username, String password) {
+	
+	@Override
+	public Connection connection(String port,String username, String password) {
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 
-			Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:49161:xe", username, password);
+			Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:"+port+":xe", username, password);//49161
 
 			return con;
 
@@ -26,7 +28,8 @@ public class OracleDBPerformans {
 
 	}
 
-	public void createSubscribersTable(Connection conn) throws SQLException {
+	@Override
+	public void createSubscribersTable(Connection conn){
 
 		String SQL = "CREATE TABLE Subscribers "
 				+ "(telNo varchar(15), packageName varchar(35), usage int, remainingUsage int)";
@@ -42,7 +45,8 @@ public class OracleDBPerformans {
 
 	}
 
-	public long insertSubscribersTime(Connection conn, String[] numbers, String[] packets) throws SQLException {
+	@Override
+	public long insertSubscribersTime(Connection conn, String[] numbers, String[] packets){
 
 		String SQL = "INSERT INTO SUBSCRIBERS(telNo,packageName,usage,remainingUsage)" + "VALUES(?,?,?,?)";
 		Connection connection = conn;
@@ -76,22 +80,35 @@ public class OracleDBPerformans {
 
 	}
 
-	public long getSubscribersTime(Connection conn) throws SQLException {
+	@Override
+	public long getSubscribersTime(Connection conn){
 
-		Statement stmt = conn.createStatement();
-		ResultSet rs = stmt.executeQuery("select * from SUBSCRIBERS");
+		Statement stmt;
+		ResultSet rs;
+		try {
+			stmt = conn.createStatement();
+			rs =stmt.executeQuery("select * from SUBSCRIBERS");
+			long startTime = System.currentTimeMillis();
 
-		long startTime = System.currentTimeMillis();
+			while (rs.next()) {
+				rs.getString(1);
+			}
 
-		while (rs.next()) {
-			rs.getString(1);
+			long endTime = System.currentTimeMillis();
+		
+
+			return endTime - startTime;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return (Long) null;
 		}
+		
 
-		long endTime = System.currentTimeMillis();
-
-		return endTime - startTime;
+	
 	}
-
+	
+	@Override
 	public String truncateSubscribersTable(Connection conn) {
 
 		String SQL = "truncate table SUBSCRIBERS";
@@ -109,7 +126,8 @@ public class OracleDBPerformans {
 
 	}
 
-	public String dropSubscribersTable(Connection conn) throws SQLException {
+	@Override
+	public String dropSubscribersTable(Connection conn){
 
 		String SQL = "Drop Table SUBSCRIBERS";
 		Connection connection = conn;
@@ -126,8 +144,15 @@ public class OracleDBPerformans {
 
 	}
 
-	public void closeConnection(Connection conn) throws SQLException {
-		conn.close();
+	@Override
+	public void closeConnection(Connection conn) {
+		try {
+			conn.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
+
 }
