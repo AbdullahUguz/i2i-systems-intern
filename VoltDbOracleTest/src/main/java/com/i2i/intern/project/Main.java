@@ -16,38 +16,38 @@ public class Main {
 		System.out.println("--------------------------------------------------------");
 		
 		// VoltDb Connection
-		IDatabaseOperation voltDbTimePerformans =new VoltDBPerformans();
-		Connection connectionVoltDb = voltDbTimePerformans.connection("49162","username","password");
+		IDatabaseOperation voltDbTimePerformance =new VoltDBPerformance();
+		Connection connectionVoltDb = voltDbTimePerformance.connection("49162","username","password");
 		
-		voltDbTimePerformans.createSubscribersTable(connectionVoltDb);
+		voltDbTimePerformance.createSubscribersTable(connectionVoltDb);
 		
-		System.out.println("VoltDb insert 20000 subscribers time : "+voltDbTimePerformans.insertSubscribersTime(connectionVoltDb,numbers,packets)+" ms");
-		System.out.println("VoltDb get 20000 subscribers time : "+voltDbTimePerformans.getSubscribersTime(connectionVoltDb)+" ms");
+		System.out.println("VoltDb insert 20000 subscribers time : "+voltDbTimePerformance.insertSubscribersTime(connectionVoltDb,numbers,packets)+" ms");
+		System.out.println("VoltDb get 20000 subscribers time : "+voltDbTimePerformance.getSubscribersTime(connectionVoltDb)+" ms");
 		
 		
-    	System.out.println(voltDbTimePerformans.dropSubscribersTable(connectionVoltDb));
+    	System.out.println(voltDbTimePerformance.dropSubscribersTable(connectionVoltDb));
         
-		System.out.println(voltDbTimePerformans.truncateSubscribersTable(connectionVoltDb));
+	//	System.out.println(voltDbTimePerformance.truncateSubscribersTable(connectionVoltDb));
 		
-		voltDbTimePerformans.closeConnection(connectionVoltDb);
+		voltDbTimePerformance.closeConnection(connectionVoltDb);
 	
 		
 		System.out.println("--------------------------------------------------------");
 		
 		// Oracle Connection
-		IDatabaseOperation oracleTimePerformans =new OracleDBPerformans();
-		Connection connectionOracle = oracleTimePerformans.connection("49261","system","oracle");
+		IDatabaseOperation oracleTimePerformance =new OracleDBPerformance();
+		Connection connectionOracle = oracleTimePerformance.connection("49261","system","oracle");
 		
-		oracleTimePerformans.createSubscribersTable(connectionOracle);
+		oracleTimePerformance.createSubscribersTable(connectionOracle);
 
-		System.out.println("Oracle insert 20000 subscribers time : "+oracleTimePerformans.insertSubscribersTime(connectionOracle,numbers,packets)+" ms");
-		System.out.println("Oracle get 20000 subscribers time : "+oracleTimePerformans.getSubscribersTime(connectionOracle)+" ms");
+		System.out.println("Oracle insert 20000 subscribers time : "+oracleTimePerformance.insertSubscribersTime(connectionOracle,numbers,packets)+" ms");
+		System.out.println("Oracle get 20000 subscribers time : "+oracleTimePerformance.getSubscribersTime(connectionOracle)+" ms");
 		
-	//	System.out.println(oracleTimePerformans.dropSubscribersTable(connectionOracle));
+		System.out.println(oracleTimePerformance.dropSubscribersTable(connectionOracle));
         
-	//	System.out.println(oracleTimePerformans.truncateSubscribersTable(connectionOracle));
+	//	System.out.println(oracleTimePerformance.truncateSubscribersTable(connectionOracle));
 		
-		oracleTimePerformans.closeConnection(connectionOracle);
+		oracleTimePerformance.closeConnection(connectionOracle);
 		
 	}
 

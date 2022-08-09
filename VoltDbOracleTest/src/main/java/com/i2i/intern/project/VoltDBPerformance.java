@@ -8,31 +8,29 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Random;
 
-public class OracleDBPerformans implements IDatabaseOperation{
+public class VoltDBPerformance implements IDatabaseOperation {
 	private Random rand = new Random();
 
-	
 	@Override
-	public Connection connection(String port,String username, String password) {
+	public Connection connection(String port,String username, String password) throws SQLException {
+
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Class.forName("org.voltdb.jdbc.Driver");
+			Connection conn = DriverManager.getConnection("jdbc:voltdb://localhost:" + port);
+			return conn;
 
-			Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:"+port+":xe", username, password);//49161
-
-			return con;
-
-		} catch (Exception e) {
-			System.out.println(e);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
 			return null;
 		}
 
 	}
-
+	
 	@Override
-	public void createSubscribersTable(Connection conn){
+	public void createSubscribersTable(Connection conn) {
 
-		String SQL = "CREATE TABLE Subscribers "
-				+ "(telNo varchar(15), packageName varchar(35), usage int, remainingUsage int)";
+		String SQL = "CREATE TABLE SUBSCRIBERS (telNo varchar(15), packageName varchar(15), usage int, remainingUsage int )";
+
 		Connection connection = conn;
 		PreparedStatement statement;
 		try {
@@ -44,11 +42,12 @@ public class OracleDBPerformans implements IDatabaseOperation{
 		}
 
 	}
-
+	
 	@Override
-	public long insertSubscribersTime(Connection conn, String[] numbers, String[] packets){
+	public long insertSubscribersTime(Connection conn, String[] numbers, String[] packets) {
 
-		String SQL = "INSERT INTO SUBSCRIBERS(telNo,packageName,usage,remainingUsage)" + "VALUES(?,?,?,?)";
+		String SQL = "INSERT INTO SUBSCRIBERS(telNo,packageName,usage,remainingUsage) " + "VALUES(?,?,?,?)";
+
 		Connection connection = conn;
 		PreparedStatement statement;
 
@@ -58,6 +57,7 @@ public class OracleDBPerformans implements IDatabaseOperation{
 			statement = connection.prepareStatement(SQL);
 
 			for (int i = 0; i < 20000; i++) {
+
 				int usage = rand.nextInt(1000);
 				int remainingUsage = 1200 - usage;
 
@@ -79,15 +79,16 @@ public class OracleDBPerformans implements IDatabaseOperation{
 		return endTime - startTime;
 
 	}
-
+	
 	@Override
 	public long getSubscribersTime(Connection conn){
 
 		Statement stmt;
 		ResultSet rs;
+
 		try {
 			stmt = conn.createStatement();
-			rs =stmt.executeQuery("select * from SUBSCRIBERS");
+			rs = stmt.executeQuery("select * from subscribers");
 			long startTime = System.currentTimeMillis();
 
 			while (rs.next()) {
@@ -95,23 +96,22 @@ public class OracleDBPerformans implements IDatabaseOperation{
 			}
 
 			long endTime = System.currentTimeMillis();
-		
 
 			return endTime - startTime;
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return (Long) null;
 		}
-		
 
-	
+		
 	}
 	
 	@Override
 	public String truncateSubscribersTable(Connection conn) {
 
-		String SQL = "truncate table SUBSCRIBERS";
+		String SQL = "truncate table subscribers";
 		Connection connection = conn;
 		PreparedStatement statement;
 
@@ -129,7 +129,7 @@ public class OracleDBPerformans implements IDatabaseOperation{
 	@Override
 	public String dropSubscribersTable(Connection conn){
 
-		String SQL = "Drop Table SUBSCRIBERS";
+		String SQL = "Drop Table subscribers";
 		Connection connection = conn;
 		PreparedStatement statement;
 		try {
@@ -143,9 +143,9 @@ public class OracleDBPerformans implements IDatabaseOperation{
 		return "Subscribers Table Dropped";
 
 	}
-
+	
 	@Override
-	public void closeConnection(Connection conn) {
+	public void closeConnection(Connection conn){
 		try {
 			conn.close();
 		} catch (SQLException e) {
